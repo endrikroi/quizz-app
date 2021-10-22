@@ -35,7 +35,7 @@ export const QuestionnaireCreator: React.FunctionComponent<{
       <TopMarginedDiv>
         <StyledButton
           onClick={handleAddQuestionnaireConfirm}
-          disabled={questions.length < 3}
+          disabled={questions.length < 2}
         >
           Save questionnaire
         </StyledButton>

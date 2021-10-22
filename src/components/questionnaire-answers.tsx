@@ -3,9 +3,10 @@ import { Question } from "../types/types";
 import { ScorePage } from "./score-page";
 import {
   Input,
+  StyledButton,
+  StyledSmallerFontDiv,
   TopMarginedDiv,
-  QuestionsDiv, StyledButton,
-  Wrapper
+  Wrapper,
 } from "./styles";
 
 const QuestionnaireAnswers: React.FunctionComponent<{
@@ -55,47 +56,45 @@ const QuestionnaireAnswers: React.FunctionComponent<{
   return (
     <div>
       <div>
-        <br />
-        <body>
-          <QuestionsDiv>
-            Question {currentQuestion + 1} of {questionList.length}:<br />
+        <StyledSmallerFontDiv>
+          Question {currentQuestion + 1} of {questionList.length}
+          <TopMarginedDiv>
             {questionList[currentQuestion].questionsText}
-          </QuestionsDiv>
-          You selected {currentSelectedAnswer}
-          <hr />
+          </TopMarginedDiv>
+        </StyledSmallerFontDiv>
+        <TopMarginedDiv />
+        <div onChange={handleChange}>
+          {questionList[currentQuestion].answerOptions.map((answerOption) => (
+            <React.Fragment key={answerOption.answerText}>
+              <Wrapper>
+                <Input
+                  type="radio"
+                  value={answerOption.answerText}
+                  name={"quizz"}
+                  disabled={isQuestionAnswered}
+                  checked={
+                    currentSelectedAnswer === answerOption.answerText ||
+                    selectedAnswers[currentQuestion] === answerOption.answerText
+                  }
+                />
+                {answerOption.answerText}
+              </Wrapper>
+            </React.Fragment>
+          ))}
           <TopMarginedDiv />
-          <div onChange={handleChange}>
-            {questionList[currentQuestion].answerOptions.map((answerOption) => (
-              <React.Fragment key={answerOption.answerText}>
-                <Wrapper>
-                  <Input
-                    type="radio"
-                    value={answerOption.answerText}
-                    name={"quizz"}
-                    disabled={isQuestionAnswered}
-                    checked={
-                      currentSelectedAnswer === answerOption.answerText ||
-                      selectedAnswers[currentQuestion] ===
-                        answerOption.answerText
-                    }
-                  />
-                  {answerOption.answerText}
-                </Wrapper>
-              </React.Fragment>
-            ))}
-            <TopMarginedDiv />
+          <Wrapper>
             <StyledButton
               onClick={handlePreviousClick}
               disabled={questionList[currentQuestion] === questionList[0]}
             >
-              PREVIOUS
+              Previous
             </StyledButton>
 
             <StyledButton
               onClick={handleConfirmClick}
               disabled={!currentSelectedAnswer || isQuestionAnswered}
             >
-              CONFIRM
+              Confirm
             </StyledButton>
 
             <StyledButton
@@ -105,10 +104,10 @@ const QuestionnaireAnswers: React.FunctionComponent<{
                 selectedAnswers.length <= currentQuestion
               }
             >
-              NEXT
+              Next
             </StyledButton>
-          </div>
-        </body>
+          </Wrapper>
+        </div>
       </div>
     </div>
   );

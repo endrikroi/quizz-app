@@ -13,3 +13,9 @@ export type Questionnaire = {
   title: string;
   questions: Question[];
 };
+
+export type User = {
+  name: string;
+  email: string;
+  password: string;
+};

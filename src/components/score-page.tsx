@@ -1,6 +1,6 @@
 import React from "react";
 import { Question } from "../types/types";
-import { TopMarginedDiv, QuestionsDiv, StyledBoldDiv, Wrapper } from "./styles";
+import { CenteredDiv, StyledBoldDiv, TopMarginedDiv, Wrapper } from "./styles";
 
 const findIfCorrect = (answer: string, question: Question) => {
   const selectedAnswerOption = question.answerOptions.find(
@@ -31,7 +31,7 @@ export const ScorePage: React.FC<{
     <div>
       <StyledBoldDiv>You have completed this QUIZZ !!!</StyledBoldDiv>
       <TopMarginedDiv />
-      <QuestionsDiv>Find below your answers and results:</QuestionsDiv>
+      <CenteredDiv>Find below your answers and results:</CenteredDiv>
       <div>
         {answersAndCorrectness.map((ac) => (
           <Wrapper key={ac.answer}>
@@ -40,9 +40,9 @@ export const ScorePage: React.FC<{
         ))}
       </div>
       <TopMarginedDiv />
-      <QuestionsDiv>
-        You answered correctly {score} questions out of {questions.length}
-      </QuestionsDiv>
+      <CenteredDiv>
+        You answered correctly {score} questions out of {questions.length}   ({score/questions.length *100} %)
+      </CenteredDiv>
     </div>
   );
 };

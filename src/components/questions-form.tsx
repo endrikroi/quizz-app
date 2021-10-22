@@ -84,7 +84,7 @@ const QuestionsForm: FunctionComponent<QuestionsFormProps> = ({
         <TopMarginedDiv />
         <div>
           <FormRow>
-            <Label>Add you answer alternatives: </Label>
+            <Label>Add your answer alternatives: </Label>
             <Input
               type="text"
               onChange={handleAnswerChange}

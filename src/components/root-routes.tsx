@@ -10,7 +10,6 @@ const QuestionnaireComponent: FunctionComponent<{
   const selectedQuestionnaire = questionnaires.find((q) => q.id === id)!;
   return (
     <div>
-      <div>{selectedQuestionnaire.title}</div>
       <QuestionnaireAnswers questionList={selectedQuestionnaire.questions} />
     </div>
   );
