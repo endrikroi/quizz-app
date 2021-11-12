@@ -1,20 +1,27 @@
-import React from "react";
-import { Question } from "../types/types";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router";
+import { useAnswerContext } from "../context/answer-context";
+import { Questionnaire } from "../types/types";
 import { ScorePage } from "./score-page";
-import {
-  Input,
-  StyledButton,
-  StyledSmallerFontDiv,
-  TopMarginedDiv,
-  Wrapper,
-} from "./styles";
+import { BottomMarginedDiv, H1, Input, StyledButton } from "./styles";
 
 const QuestionnaireAnswers: React.FunctionComponent<{
-  questionList: Question[];
-}> = ({ questionList }) => {
+  questionnaire: Questionnaire;
+}> = ({ questionnaire }) => {
+  const questionList = questionnaire.questions;
+
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
 
-  const [selectedAnswers, setSelectedAnswers] = React.useState<string[]>([]);
+  const { setQuestionnairesAnswers, questionnairesAnswers } =
+    useAnswerContext();
+
+  const questionnaireResult = questionnairesAnswers.find(
+    (x) => x.id === questionnaire.id
+  );
+
+  const [selectedAnswers, setSelectedAnswers] = React.useState<string[]>(
+    questionnaireResult?.answers ?? []
+  );
 
   const [currentSelectedAnswer, setCurrentSelectedAnswer] = React.useState<
     string | undefined
@@ -43,11 +50,42 @@ const QuestionnaireAnswers: React.FunctionComponent<{
     setCurrentQuestion(previousQuestion);
   };
 
-  const quizzCompleted = selectedAnswers.length === questionList.length;
+  const quizzCompleted =
+    selectedAnswers.length === questionList.length || questionnaireResult;
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (quizzCompleted && !questionnaireResult) {
+      setQuestionnairesAnswers((prev) => [
+        ...prev,
+        { id: questionnaire.id, answers: selectedAnswers },
+      ]);
+    }
+  }, [
+    questionnaireResult,
+    quizzCompleted,
+    selectedAnswers,
+    questionnaire.id,
+    setQuestionnairesAnswers,
+  ]);
+
+  const handleGoToCreator = () => {
+    history.push("/creator");
+  };
 
   if (quizzCompleted) {
     return (
-      <ScorePage selectedAnswers={selectedAnswers} questions={questionList} />
+      <div>
+        <ScorePage selectedAnswers={selectedAnswers} questions={questionList} />
+        {quizzCompleted && (
+          <div>
+            <button onClick={handleGoToCreator}>
+              Add another questionnaire
+            </button>
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -56,17 +94,16 @@ const QuestionnaireAnswers: React.FunctionComponent<{
   return (
     <div>
       <div>
-        <StyledSmallerFontDiv>
+        <H1>
           Question {currentQuestion + 1} of {questionList.length}
-          <TopMarginedDiv>
-            {questionList[currentQuestion].questionsText}
-          </TopMarginedDiv>
-        </StyledSmallerFontDiv>
-        <TopMarginedDiv />
+        </H1>
+        <div>{questionList[currentQuestion].questionText}</div>
+        <div />
         <div onChange={handleChange}>
           {questionList[currentQuestion].answerOptions.map((answerOption) => (
             <React.Fragment key={answerOption.answerText}>
-              <Wrapper>
+              {" "}
+              <div>
                 <Input
                   type="radio"
                   value={answerOption.answerText}
@@ -78,11 +115,12 @@ const QuestionnaireAnswers: React.FunctionComponent<{
                   }
                 />
                 {answerOption.answerText}
-              </Wrapper>
+              </div>
             </React.Fragment>
           ))}
-          <TopMarginedDiv />
-          <Wrapper>
+          <div />
+          <div>
+            <BottomMarginedDiv />
             <StyledButton
               onClick={handlePreviousClick}
               disabled={questionList[currentQuestion] === questionList[0]}
@@ -106,7 +144,7 @@ const QuestionnaireAnswers: React.FunctionComponent<{
             >
               Next
             </StyledButton>
-          </Wrapper>
+          </div>
         </div>
       </div>
     </div>

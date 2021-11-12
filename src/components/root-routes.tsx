@@ -1,7 +1,8 @@
 import { FunctionComponent } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { Questionnaire } from "../types/types";
 import QuestionnaireAnswers from "./questionnaire-answers";
+import { QuestionnaireCreator } from "./questionnaire-creator";
 
 const QuestionnaireComponent: FunctionComponent<{
   questionnaires: Questionnaire[];
@@ -10,19 +11,30 @@ const QuestionnaireComponent: FunctionComponent<{
   const selectedQuestionnaire = questionnaires.find((q) => q.id === id)!;
   return (
     <div>
-      <QuestionnaireAnswers questionList={selectedQuestionnaire.questions} />
+      <QuestionnaireAnswers questionnaire={selectedQuestionnaire} />
     </div>
   );
 };
 
-const RootRoutes: FunctionComponent<{ questionnaires: Questionnaire[] }> = ({
-  questionnaires,
-}) => {
+const RootRoutes: FunctionComponent<{
+  questionnaires: Questionnaire[];
+  handleQuestionnaireAdd: (questionnaire: Questionnaire) => void;
+}> = ({ questionnaires, handleQuestionnaireAdd }) => {
   const routes = questionnaires.map((q) => (
-    <Route key={q.id} exact path={`/questionnaire/${q.id}`}>
+    <Route key={q.id} exact path={`/home/questionnaire/${q.id}`}>
       <QuestionnaireComponent id={q.id} questionnaires={questionnaires} />
     </Route>
   ));
-  return <Switch>{routes}</Switch>;
+  return (
+    <Switch>
+      {routes}
+      <Route exact path={`/home/creator`}>
+        <QuestionnaireCreator
+          onConfirmCreateQuestionnaire={handleQuestionnaireAdd}
+        />
+      </Route>
+      <Redirect to="/home/creator" />
+    </Switch>
+  );
 };
 export default RootRoutes;

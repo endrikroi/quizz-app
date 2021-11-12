@@ -4,7 +4,7 @@ export type Answer = {
 };
 
 export type Question = {
-  questionsText: string;
+  questionText: string;
   answerOptions: Answer[];
 };
 
@@ -18,4 +18,9 @@ export type User = {
   name: string;
   email: string;
   password: string;
+};
+
+export type QuestionnaireResult = {
+  id: string;
+  answers: string[];
 };

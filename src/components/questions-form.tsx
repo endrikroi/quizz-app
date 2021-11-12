@@ -1,6 +1,13 @@
 import React, { FunctionComponent } from "react";
 import { Answer, Question } from "../types/types";
-import { FormRow, Input, Label, TopMarginedDiv, StyledButton } from "./styles";
+import {
+  AlternativesLabel,
+  FormRow,
+  Input,
+  Label,
+  StyledButton,
+  TopMarginedDiv,
+} from "./styles";
 
 interface QuestionsFormProps {
   questionList: Question[];
@@ -64,7 +71,7 @@ const QuestionsForm: FunctionComponent<QuestionsFormProps> = ({
   const handleConfirm = () => {
     setQuestionList((previousQuestionList) => [
       ...previousQuestionList,
-      { questionsText: question, answerOptions: answerItems },
+      { questionText: question, answerOptions: answerItems },
     ]);
     if (!isAnyAnswerCorrect) {
       return;
@@ -79,25 +86,35 @@ const QuestionsForm: FunctionComponent<QuestionsFormProps> = ({
       <div>
         <FormRow>
           <Label>Question: </Label>
-          <Input onChange={handleQuestionChange} type="text" value={question} />
+          <Input
+            placeholder="Your question"
+            onChange={handleQuestionChange}
+            type="text"
+            value={question}
+          />
         </FormRow>
         <TopMarginedDiv />
         <div>
           <FormRow>
-            <Label>Add your answer alternatives: </Label>
-            <Input
-              type="text"
-              onChange={handleAnswerChange}
-              value={answerToAdd}
-              onKeyDown={handleAnswersKeyDown}
-              disabled={!question}
-            />
-            <StyledButton
-              onClick={handleAnswersToAddClick}
-              disabled={!answerToAdd || !question}
-            >
-              Add
-            </StyledButton>
+            <div>
+              <AlternativesLabel>
+                Add your answer alternatives:{" "}
+              </AlternativesLabel>
+              <Input
+                placeholder="Your alternatives"
+                type="text"
+                onChange={handleAnswerChange}
+                value={answerToAdd}
+                onKeyDown={handleAnswersKeyDown}
+                disabled={!question}
+              />
+              <StyledButton
+                onClick={handleAnswersToAddClick}
+                disabled={!answerToAdd || !question}
+              >
+                Add
+              </StyledButton>
+            </div>
           </FormRow>
           <div>
             {answerItems.map((item) => (

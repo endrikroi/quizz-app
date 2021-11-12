@@ -11,7 +11,7 @@ const QuestionnaireSelector: FunctionComponent<NavigationProps> = ({
 }) => {
   const links = questionnaires.map((questionnaire) => (
     <li key={questionnaire.id}>
-      <Link to={`/questionnaire/${questionnaire.id}`}>
+      <Link to={`/home/questionnaire/${questionnaire.id}`}>
         {questionnaire.title}
       </Link>
     </li>

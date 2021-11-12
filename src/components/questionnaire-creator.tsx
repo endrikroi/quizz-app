@@ -29,7 +29,7 @@ export const QuestionnaireCreator: React.FunctionComponent<{
     <TopMarginedDiv>
       <FormRow>
         <Label>Title: </Label>
-        <Input value={title} onChange={handleTitleChange} />
+        <Input placeholder="Questionnaire title" value={title} onChange={handleTitleChange} />
       </FormRow>
       <QuestionsForm questionList={questions} setQuestionList={setQuestions} />
       <TopMarginedDiv>

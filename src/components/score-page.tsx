@@ -1,6 +1,6 @@
 import React from "react";
 import { Question } from "../types/types";
-import { CenteredDiv, StyledBoldDiv, TopMarginedDiv, Wrapper } from "./styles";
+import { CenteredDiv, StyledBoldDiv, TopMarginedDiv } from "./styles";
 
 const findIfCorrect = (answer: string, question: Question) => {
   const selectedAnswerOption = question.answerOptions.find(
@@ -29,14 +29,14 @@ export const ScorePage: React.FC<{
 
   return (
     <div>
-      <StyledBoldDiv>You have completed this QUIZZ !!!</StyledBoldDiv>
+      <StyledBoldDiv>You have completed this quizz 👍</StyledBoldDiv>
       <TopMarginedDiv />
-      <CenteredDiv>Find below your answers and results:</CenteredDiv>
+      <div>Find below your answers and results:</div>
       <div>
         {answersAndCorrectness.map((ac) => (
-          <Wrapper key={ac.answer}>
-            {ac.answer} - {ac.isCorrect ? "Correct" : "Not correct"}
-          </Wrapper>
+          <div key={ac.answer}>
+            {ac.answer}  {ac.isCorrect ? " ✔️Correct" : "✖️ Wrong"}
+          </div>
         ))}
       </div>
       <TopMarginedDiv />
