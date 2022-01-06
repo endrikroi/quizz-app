@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { useHistory } from "react-router";
-import { defaultQuestionnaireResults, defaultQuestionnaires } from "../App";
 import { AnswerContext } from "../context/answer-context";
-import { Questionnaire, User } from "../types/types";
+import { Questionnaire, QuestionnaireResult, User } from "../types/types";
 import HeaderComponent from "./header-component";
 import QuestionnaireSelector from "./questionnaire-selector";
 import RootRoutes from "./root-routes";
@@ -15,16 +14,20 @@ import {
 } from "./styles";
 
 export const Home: FunctionComponent<{
+  questionnaires: Questionnaire[];
+  setQuestionnaires: React.Dispatch<React.SetStateAction<Questionnaire[]>>;
+  questionnairesAnswers: QuestionnaireResult[];
+  setQuestionnairesAnswers: React.Dispatch<
+    React.SetStateAction<QuestionnaireResult[]>
+  >;
   user: Omit<User, "password"> | undefined;
-}> = ({ user }) => {
-  const [questionnaires, setQuestionnaires] = React.useState<Questionnaire[]>(
-    defaultQuestionnaires
-  );
-
-  const [questionnairesAnswers, setQuestionnairesAnswers] = React.useState<
-    { id: string; answers: string[] }[]
-  >(defaultQuestionnaireResults);
-
+}> = ({
+  user,
+  questionnaires,
+  setQuestionnaires,
+  questionnairesAnswers,
+  setQuestionnairesAnswers,
+}) => {
   const handleQuestionnaireAdd = (questionnaire: Questionnaire) => {
     setQuestionnaires((prev) => [...prev, questionnaire]);
   };

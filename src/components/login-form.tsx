@@ -33,7 +33,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({ login, error }) => {
           <div>
             <h2>Login</h2>
           </div>
-          {error !== "" ? <div>{error}</div> : ""}
+          {error !== "" ? <div>{error}</div> : null}
           <div>
             <Label>Email </Label>
             <StyledInput
